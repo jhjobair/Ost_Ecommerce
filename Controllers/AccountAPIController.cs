@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Ost_Ecommerce.Models;
 
 namespace Ost_Ecommerce.Controllers
 {
     public class AccountAPIController : Controller
     {
-        public IActionResult varifyUser(string userName , string password)
+        [HttpPost]
+        public IActionResult varifyUser(Account modelAccount)
         {
             
-            if (userName == "jobair" && password == "0000")
+            if (modelAccount.username == "jobair" && modelAccount.password == "0000")
             {
                 return Ok("Successfully Authorised");
             }

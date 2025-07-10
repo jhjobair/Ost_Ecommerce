@@ -1,8 +1,8 @@
-﻿var ProducController = {
+﻿var ProductController = {
     LstProduct: () => {
-        ProductService.LstProduct(function (response) {
+        ProductService.LstProducts(function (response) {
             var productContent = "";
-             $.each(data,function(index,value){
+             $.each(response,function(index,value){
                 productContent= productContent+`
                    <div class="col-sm-3" style="margin-top:10px">
                         <div class="thumb-wrapper">
@@ -30,6 +30,6 @@
             })
             $('#productList').html(productContent);
         })
-        })
+        
     }
 }
