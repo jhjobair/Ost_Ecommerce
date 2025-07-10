@@ -6,12 +6,16 @@ namespace Ost_Ecommerce.Controllers
     {
         public IActionResult varifyUser(string userName , string password)
         {
+            
             if (userName == "jobair" && password == "0000")
             {
                 return Ok("Successfully Authorised");
             }
-            else 
-                return Unauthorized(new {message ="unAuth Access"});
+            else
+            {
+                return NotFound(new { message = "Unauth Access" });
+            } 
+                
         }
     }
 }
