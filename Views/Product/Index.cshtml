@@ -12,6 +12,20 @@
    $(document).on("click", ".wish-icon i", function () {
         $(this).toggleClass("fa-heart fa-heart-o");
     });
+$(document).ready(function () {
+var cartData = localStorage.getItem("lstCartProduct");
+if (cartData) {
+    try {
+        var lst = JSON.parse(cartData);
+        $('#lblCartCount').html(lst.length);
+    } catch (e) {
+        $('#lblCartCount').html("0");
+    }
+} else {
+    $('#lblCartCount').html("0");
+}
+});
+
 </script>
 
 <div class="container-xl">

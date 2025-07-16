@@ -1,0 +1,65 @@
+﻿@* <ul>
+    <li>Order</li>
+    <li>Demo</li>
+    <li>Demo</li>
+    <li>Profile</li>
+    <li>LogOut</li>
+</ul> *@
+<style>
+    #LeftBar ul {
+        list-style: none;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        font-size: larger;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Set sidebar background */
+    #LeftBar {
+        background-color: #2C3E50; /* Dark tone */
+    }
+
+        /* Style anchor links inside sidebar */
+        #LeftBar ul li a {
+            color: #ECF0F1; /* Light grey text */
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+            /* Hover effect */
+            #LeftBar ul li a:hover {
+                color: #1ABC9C; /* Teal hover */
+                text-shadow: 0 0 5px #1ABC9C;
+            }
+
+            /* Optional: highlight active link */
+            #LeftBar ul li a.active {
+                color: white;
+                background-color: #2980B9;
+                padding: 5px 10px;
+                border-radius: 5px;
+            }
+</style>
+<div id="LeftBar" style=" width: 200px; bottom: 0px; top: 56px; position: absolute; background: #497e7b;left:0px;">
+    <div style="padding:5px; color:azure">
+        <ul>
+            <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+            <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+            <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+
+           @*  @{
+                if (if (localStorage.getItem("userName") != undefined && localStorage.getItem("userName") != null))
+                {
+                    <li style=" text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; ">@Html.ActionLink("DashBoard", "DashBoard", "Account", new { area = "" }, new { @class = "nav-link" })</li>
+                }
+                if (Session["Role"] != null)
+                {
+                    <li style=" text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; ">@Html.ActionLink("Add Customer", "addNewCutomer", "Account", new { area = "" }, new { @class = "nav-link" })</li>
+
+                }
+            } *@
+        </ul>
+    </div>
+</div>

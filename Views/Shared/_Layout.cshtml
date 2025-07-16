@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Ost_Ecommerce.styles.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          rel="stylesheet" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -32,7 +34,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Dashboard">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
@@ -43,7 +45,11 @@
                     </ul>
                 </div>
                 <div style="float:right;width:200px">
-                    <span id="lblUser"></span>
+                    <div style="height:10px;display:inline-flex;padding:0px 7px;position: relative;cursor:pointer" onclick="javascript:ProductController.ViewCart()">
+                        <i class="fa fa-cart-shopping"></i>
+                        <span id="lblCartCount" style="padding:2px 5px;color:white;background:maroon;font-size: 10px;position: absolute;right: -10px;top: -10px;border-radius: 50%;">0</span>
+                    </div>
+                    <i class="fa fa-user" style="padding-left: 10px;padding-right:2px;"></i><span id="lblUser"></span>
                 </div>
             </div>
         </nav>
@@ -54,11 +60,11 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+   @*  <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2025 - Ost_Ecommerce - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
+    </footer> *@
     
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
