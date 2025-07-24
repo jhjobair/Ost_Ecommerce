@@ -1,17 +1,20 @@
-﻿var ProductController = {
+﻿
+var lstCartProduct = [];
+
+var ProductController = {
     LstProduct: () => {
         ProductService.LstProducts(function (response) {
             var productContent = "";
-             $.each(response,function(index,value){
+            $.each(response.products, function (index, value) {
                 productContent= productContent+`
                    <div class="col-sm-3" style="margin-top:10px">
                         <div class="thumb-wrapper">
                             <span class="wish-icon"><i class="fa fa-heart-o"></i></span>
                             <div class="img-box">
-                                 <img id="pdPicture_${index}" src="${value.picture}" class="img-fluid" alt="">
+                                 <img id="pdPicture_${index}" src="${value.thumbnail}" class="img-fluid" alt="">
                             </div>
                             <div class="thumb-content text-center">
-                                <h4 id="pdName_${index}">${value.name}</h4>
+                                <h4 id="pdName_${index}">${value.title}</h4>
                                 <div class="star-rating">
                                     <ul class="list-inline">
                                         <li class="list-inline-item"><i class="fa fa-star"></i></li>
@@ -33,7 +36,6 @@
         
     },
     AddToCart: (contrl) => {
-        var lstCartProduct = [];
         if (localStorage.getItem("lstCartProduct") != undefined && localStorage.getItem("lstCartProduct") != null) {
             lstCartProduct = JSON.parse(localStorage.getItem("lstCartProduct"));
         }
@@ -59,6 +61,76 @@
         console.log("__________After Adding New Product_____________");
         console.log(lstCartProduct);
         alert("Product Added to Cart")
-    }
+    },
+    ViewCart: () => {
+        //if (lstCartProduct.length > 0) {
+        //    $.each(lstCartProduct, function (index, value) {
+        //        $("#dvViewCart").append(`
+        //           <div style="clear:both;display:block;border:1px solid #ffff; height:50px;width:100%">
+        //            <div class="row" style="padding:5px">
+        //                <div class="col col-3">
+        //                     <img src="${value.Image}" />
+        //                </div>
+        //                <div class="col col-3">
+        //                    <span>${value.Name}</span>
+        //                </div>
+        //                <div class="col col-3">
+        //                    <span>${value.price}</span>
+        //                </div>
+        //                <div class="col col-3">
+        //                    X
+        //                </div>
+        //            </div>
+        //          </div>
+        //        `)
+        //    })
+            //}
+
+        if (lstCartProduct.length > 0) {
+            $("#dvViewCart").html('');
+                $.each(lstCartProduct, function (index, value) {
+                    $("#dvViewCart").append(`
+            <div class="cart-item" style="clear:both; display:block; border:1px solid #fff; height:100px; width:100%;">
+                <div class="row" style="padding:5px">
+                    <div class="col-3">
+                        <img src="${value.Image}" alt="${value.Name}" style="height:40px; width:40px;" />
+                    </div>
+                    <div class="col-3 d-flex align-items-center">
+                        <span>${value.Name}</span>
+                    </div>
+                    <div class="col-3 d-flex align-items-center">
+                        <span>${value.Price}</span>
+                    </div>
+                    <div class="col-3 d-flex align-items-center justify-content-end">
+                        <span style="cursor:pointer; color:red;">X</span>
+                    </div>
+                </div>
+            </div>
+        `);
+                });
+        }
+    
+
+
+
+               //this is with raw css no animation
+        //if ($("#dvViewCart").css("right") == "0" || $("#dvViewCart").css("right") == "0px") {
+        //    $("#dvViewCart").css("right", parseInt($("#dvViewCart").css("right").replace("px", "")) - 300);
+        //}
+        //else {
+        //    $("#dvViewCart").css("right", parseInt($("#dvViewCart").css("right").replace("px", "")) + 300);
+        //}
+        if ($("#dvViewCart").css("right") == "0" || $("#dvViewCart").css("right") == "0px") {
+            $("#dvViewCart").animate({
+                right: "-300"
+            }, "fast");
+        }
+        else {
+            $("#dvViewCart").animate({
+                right: "0"
+            }, "slow");        }
+
+        
+    },
 
 }
