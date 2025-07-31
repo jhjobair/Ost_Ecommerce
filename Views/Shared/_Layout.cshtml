@@ -9,8 +9,10 @@
     <link rel="stylesheet" href="~/Ost_Ecommerce.styles.css" asp-append-version="true" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
           rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         $(document).ready(function () {
           if(localStorage.getItem("userName")!=undefined && localStorage.getItem("userName")!=null) {
@@ -59,7 +61,7 @@
             @RenderBody()
         </main>
     </div>
-
+    @Html.Partial("~/Views/Common/_PartialViewCart.cshtml");
    @*  <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2025 - Ost_Ecommerce - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

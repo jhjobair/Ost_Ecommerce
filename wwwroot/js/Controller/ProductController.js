@@ -39,14 +39,12 @@ var ProductController = {
         if (localStorage.getItem("lstCartProduct") != undefined && localStorage.getItem("lstCartProduct") != null) {
             lstCartProduct = JSON.parse(localStorage.getItem("lstCartProduct"));
         }
-        console.log("__________Existing Product_____________");
-        console.log(lstCartProduct);
+
         var tergetIndex = $(contrl).attr("id").split("_")[1];
         var targetImage = $('#pdPicture_' + tergetIndex).attr('src');
         var targetName = $('#pdName_' + tergetIndex).html();
         var targetPrice = $('#pdPrice_' + tergetIndex).html();
 
-        $('#lblCartCount').html(parseInt($('#lblCartCount').html())+1);
 
         var targetProduct =
         {
@@ -57,15 +55,35 @@ var ProductController = {
  
         lstCartProduct.push(targetProduct);
         localStorage.setItem("lstCartProduct", JSON.stringify(lstCartProduct));
-        $('#lblCartCount').html(lstCartProduct.length);
-        console.log("__________After Adding New Product_____________");
-        console.log(lstCartProduct);
+        ProductController.ArrangeProductForCart();
         alert("Product Added to Cart")
     },
+    DeleteCartProduct: (tergetProductId, tergetIndex) => {
+        let lstCartProduct_update = [];
+
+        $.each(lstCartProduct, function (index, value) {
+            if (parseInt(tergetIndex) !== index) {
+                lstCartProduct_update.push(value);
+            }
+        });
+
+        lstCartProduct = lstCartProduct_update;
+        localStorage.setItem("lstCartProduct", JSON.stringify(lstCartProduct));
+        $(tergetProductId).remove(); // remove from DOM
+        ProductController.ArrangeProductForCart();
+
+        if (lstCartProduct.length === 0) {
+            $('#lblCartCount').html("0");
+            $("#dvViewCartWrapper").html("<p>Your cart is empty</p>");
+        }
+
+        alert("Product Deleted Successfully");
+    },
+
     ViewCart: () => {
         //if (lstCartProduct.length > 0) {
         //    $.each(lstCartProduct, function (index, value) {
-        //        $("#dvViewCart").append(`
+        //        $("#dvViewCartWrapper").append(`
         //           <div style="clear:both;display:block;border:1px solid #ffff; height:50px;width:100%">
         //            <div class="row" style="padding:5px">
         //                <div class="col col-3">
@@ -86,39 +104,13 @@ var ProductController = {
         //    })
             //}
 
-        if (lstCartProduct.length > 0) {
-            $("#dvViewCart").html('');
-                $.each(lstCartProduct, function (index, value) {
-                    $("#dvViewCart").append(`
-            <div class="cart-item" style="clear:both; display:block; border:1px solid #fff; height:100px; width:100%;">
-                <div class="row" style="padding:5px">
-                    <div class="col-3">
-                        <img src="${value.Image}" alt="${value.Name}" style="height:40px; width:40px;" />
-                    </div>
-                    <div class="col-3 d-flex align-items-center">
-                        <span>${value.Name}</span>
-                    </div>
-                    <div class="col-3 d-flex align-items-center">
-                        <span>${value.Price}</span>
-                    </div>
-                    <div class="col-3 d-flex align-items-center justify-content-end">
-                        <span style="cursor:pointer; color:red;">X</span>
-                    </div>
-                </div>
-            </div>
-        `);
-                });
-        }
     
-
-
-
                //this is with raw css no animation
-        //if ($("#dvViewCart").css("right") == "0" || $("#dvViewCart").css("right") == "0px") {
-        //    $("#dvViewCart").css("right", parseInt($("#dvViewCart").css("right").replace("px", "")) - 300);
+        //if ($("#dvViewCartWrapper").css("right") == "0" || $("#dvViewCartWrapper").css("right") == "0px") {
+        //    $("#dvViewCartWrapper").css("right", parseInt($("#dvViewCartWrapper").css("right").replace("px", "")) - 300);
         //}
         //else {
-        //    $("#dvViewCart").css("right", parseInt($("#dvViewCart").css("right").replace("px", "")) + 300);
+        //    $("#dvViewCartWrapper").css("right", parseInt($("#dvViewCartWrapper").css("right").replace("px", "")) + 300);
         //}
         if ($("#dvViewCart").css("right") == "0" || $("#dvViewCart").css("right") == "0px") {
             $("#dvViewCart").animate({
@@ -128,9 +120,79 @@ var ProductController = {
         else {
             $("#dvViewCart").animate({
                 right: "0"
-            }, "slow");        }
+            }, "fast");        }
 
         
     },
-
+    ArrangeProductForCart: () => {
+        if (lstCartProduct.length > 0) {
+            $('#lblCartCount').html(lstCartProduct.length);
+            $("#dvViewCartWrapper").html('');
+            $.each(lstCartProduct, function (index, value) {
+                $("#dvViewCartWrapper").append(`
+            <div class="cart-item" id='dvCartWrapper_${index}';style="clear:both; display:block; border:1px solid #fff; height:100px; width:100%;">
+                <div class="row" style="padding:5px">
+                    <div class="col-3">
+                        <img src="${value.Image}" alt="${value.Name}" style="height:70px; width:70px;" />
+                    </div>
+                    <div class="col-3 d-flex align-items-center">
+                        <span>${value.Name}</span>
+                    </div>
+                    <div class="col-3 d-flex align-items-center">
+                        <span>${value.Price}</span>
+                    </div>
+                    <div class="col-3 d-flex align-items-center ">
+                        <span id='dltCartProduct_${index}' style='cursor:pointer; color:red;' onclick="ProductController.DeleteCartProduct('#dvCartWrapper_${index}', '${index}')">X</span>
+                    </div>
+                </div>
+            </div>
+        `);
+        });
+        }
+    },
+    PrepareCartForCheckoutUI: (url) => {
+        if (lstCartProduct.length > 0) {
+            window.location.href = url;
+        }
+        else {
+            alert("Cart Empty");
+        }
+    },
+    LoadCartProductForCheckout: () => {
+        if (localStorage.getItem("lstCartProduct") != null && localStorage.getItem("lstCartProduct") != undefined) {
+            var cartData = localStorage.getItem("lstCartProduct");
+            if (cartData) {
+                try {
+                    lstCartProduct = JSON.parse(cartData);
+                    ProductController.ArrangeProductForCart();
+                    $.each(lstCartProduct, function (index, value) {
+                        $("#dvCheckoutWrapper").append(`
+            <div class="cart-item" id='dvCartWrapper_${index}';style="clear:both; display:block; border:1px solid #fff; height:100px; width:100%;">
+                <div class="row" style="padding:5px">
+                    <div class="col-3">
+                        <img src="${value.Image}" alt="${value.Name}" style="height:70px; width:70px;" />
+                    </div>
+                    <div class="col-3 d-flex align-items-center">
+                        <span>${value.Name}</span>
+                    </div>
+                    <div class="col-3 d-flex align-items-center">
+                        <span>${value.Price}</span>
+                    </div>
+                    <div class="col-3 d-flex align-items-center ">
+                        <span id='dltCartProduct_${index}' style='cursor:pointer; color:red;' onclick="ProductController.DeleteCartProduct('#dvCartWrapper_${index}', '${index}')">X</span>
+                    </div>
+                </div>
+            </div>
+        `);
+                    });
+                } catch (e) {
+                    $('#lblCartCount').html("0");
+                    lstCartProduct = [];
+                }
+            } else {
+                $('#lblCartCount').html("0");
+                lstCartProduct = [];
+            }
+        };
+    }
 }

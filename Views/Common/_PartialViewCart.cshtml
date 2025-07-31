@@ -1,5 +1,14 @@
 ﻿
 
-<div id="dvViewCart" style="position:fixed;right:-300px;top:0px;bottom:0px;width:300px;background:#cccc;overflow-y: auto; z-index: 999;transition: right 0.3s ease;">
-  
+<div id="dvViewCart" style="position:fixed; right:-300px; top:0; bottom:0; width:300px; background:#ccc;overflow:auto">
+
+    <div id="dvViewCartWrapper" style="position:absolute;width:100%;background:#ccc;display:block;bottom:40px;top:0px">
+       
+    </div>
+
+    <button class="btn btn-danger" style="height:40px; width:100%;bottom:0px; position:absolute;background:#444;"
+            onclick="javascript:ProductController.PrepareCartForCheckoutUI('@Url.Action("CheckOut", "Product")')">
+        CheckOut
+    </button>
 </div>
+    

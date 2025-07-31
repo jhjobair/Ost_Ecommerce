@@ -1,6 +1,5 @@
 ﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<script src="~/js/jquery-3.7.1.min.js"></script>
 <script src="~/js/controller/productcontroller.js"></script>
 <script src="~/js/services/productservice.js"></script>
 <script>
@@ -12,19 +11,24 @@
    $(document).on("click", ".wish-icon i", function () {
         $(this).toggleClass("fa-heart fa-heart-o");
     });
-$(document).ready(function () {
-var cartData = localStorage.getItem("lstCartProduct");
-if (cartData) {
-    try {
-        var lst = JSON.parse(cartData);
-        $('#lblCartCount').html(lst.length);
-    } catch (e) {
+
+    $(document).ready(function () {
+    var cartData = localStorage.getItem("lstCartProduct");
+    if (cartData) {
+        try {
+            lstCartProduct = JSON.parse(cartData); // ✅ assign to global
+            $('#lblCartCount').html(lstCartProduct.length);
+            ProductController.ArrangeProductForCart();
+        } catch (e) {
+            $('#lblCartCount').html("0");
+            lstCartProduct = [];
+        }
+    } else {
         $('#lblCartCount').html("0");
+        lstCartProduct = [];
     }
-} else {
-    $('#lblCartCount').html("0");
-}
 });
+
 
 </script>
 
@@ -44,4 +48,3 @@ if (cartData) {
         </div>
     </div>
 </div>
-@Html.Partial("~/Views/Common/_PartialViewCart.cshtml");
