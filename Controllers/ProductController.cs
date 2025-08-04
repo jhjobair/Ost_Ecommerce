@@ -12,5 +12,10 @@ namespace Ost_Ecommerce.Controllers
         {
             return View();
         }
+        public IActionResult SingleProduct(int id)
+        {
+            ViewBag.productID = id;
+            return View();
+        }
     }
 }

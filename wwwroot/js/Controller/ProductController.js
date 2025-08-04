@@ -11,10 +11,10 @@ var ProductController = {
                         <div class="thumb-wrapper">
                             <span class="wish-icon"><i class="fa fa-heart-o"></i></span>
                             <div class="img-box">
-                                 <img id="pdPicture_${index}" src="${value.thumbnail}" class="img-fluid" alt="">
+                                 <img id="pdPicture_${value.id}"  src="${value.thumbnail}" style="cursor:pointer" onclick="window.location.href='/product/singleproduct/${value.id}'" class="img-fluid" alt="">
                             </div>
                             <div class="thumb-content text-center">
-                                <h4 id="pdName_${index}">${value.title}</h4>
+                                <h4 id="pdName_${value.id}" style="cursor:pointer"onclick="window.location.href='/product/singleproduct/${value.id}'">${value.title}</h4>
                                 <div class="star-rating">
                                     <ul class="list-inline">
                                         <li class="list-inline-item"><i class="fa fa-star"></i></li>
@@ -24,8 +24,8 @@ var ProductController = {
                                         <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
                                     </ul>
                                 </div>
-                                        <p class="item-price" ><strike>${value.price}</strike> <b id="pdPrice_${index}">${value.price}</b></p>
-                                        <a href="#" class="btn btn-secondary" id='btnAddToCart_${index}' onclick='ProductController.AddToCart(this)'>Add to Cart</a>
+                                        <p class="item-price" ><strike>${value.price}</strike> <b id="pdPrice_${value.id}">${value.price}</b></p>
+                                        <a href="#" class="btn btn-secondary" id='btnAddToCart_${value.id}' onclick='ProductController.AddToCart(this)'>Add to Cart</a>
                             </div>
                         </div>
                     </div>
@@ -48,6 +48,7 @@ var ProductController = {
 
         var targetProduct =
         {
+            id: tergetIndex,
             Name: targetName,
             Image: targetImage,
             Price: targetPrice
@@ -62,14 +63,14 @@ var ProductController = {
         let lstCartProduct_update = [];
 
         $.each(lstCartProduct, function (index, value) {
-            if (parseInt(tergetIndex) !== index) {
+            if (tergetIndex !== value.id) {
                 lstCartProduct_update.push(value);
             }
         });
 
         lstCartProduct = lstCartProduct_update;
         localStorage.setItem("lstCartProduct", JSON.stringify(lstCartProduct));
-        $(tergetProductId).remove(); // remove from DOM
+        $(tergetProductId).remove();
         ProductController.ArrangeProductForCart();
 
         if (lstCartProduct.length === 0) {
@@ -81,37 +82,6 @@ var ProductController = {
     },
 
     ViewCart: () => {
-        //if (lstCartProduct.length > 0) {
-        //    $.each(lstCartProduct, function (index, value) {
-        //        $("#dvViewCartWrapper").append(`
-        //           <div style="clear:both;display:block;border:1px solid #ffff; height:50px;width:100%">
-        //            <div class="row" style="padding:5px">
-        //                <div class="col col-3">
-        //                     <img src="${value.Image}" />
-        //                </div>
-        //                <div class="col col-3">
-        //                    <span>${value.Name}</span>
-        //                </div>
-        //                <div class="col col-3">
-        //                    <span>${value.price}</span>
-        //                </div>
-        //                <div class="col col-3">
-        //                    X
-        //                </div>
-        //            </div>
-        //          </div>
-        //        `)
-        //    })
-            //}
-
-    
-               //this is with raw css no animation
-        //if ($("#dvViewCartWrapper").css("right") == "0" || $("#dvViewCartWrapper").css("right") == "0px") {
-        //    $("#dvViewCartWrapper").css("right", parseInt($("#dvViewCartWrapper").css("right").replace("px", "")) - 300);
-        //}
-        //else {
-        //    $("#dvViewCartWrapper").css("right", parseInt($("#dvViewCartWrapper").css("right").replace("px", "")) + 300);
-        //}
         if ($("#dvViewCart").css("right") == "0" || $("#dvViewCart").css("right") == "0px") {
             $("#dvViewCart").animate({
                 right: "-300"
@@ -130,7 +100,7 @@ var ProductController = {
             $("#dvViewCartWrapper").html('');
             $.each(lstCartProduct, function (index, value) {
                 $("#dvViewCartWrapper").append(`
-            <div class="cart-item" id='dvCartWrapper_${index}';style="clear:both; display:block; border:1px solid #fff; height:100px; width:100%;">
+            <div class="cart-item" id='dvCartWrapper_${value.id}';style="clear:both; display:block; border:1px solid #fff; height:100px; width:100%;">
                 <div class="row" style="padding:5px">
                     <div class="col-3">
                         <img src="${value.Image}" alt="${value.Name}" style="height:70px; width:70px;" />
@@ -142,12 +112,36 @@ var ProductController = {
                         <span>${value.Price}</span>
                     </div>
                     <div class="col-3 d-flex align-items-center ">
-                        <span id='dltCartProduct_${index}' style='cursor:pointer; color:red;' onclick="ProductController.DeleteCartProduct('#dvCartWrapper_${index}', '${index}')">X</span>
+                        <span id='dltCartProduct_${value.id}' style='cursor:pointer; color:red;' onclick="ProductController.DeleteCartProduct('#dvCartWrapper_${value.id}', '${value.id}')">X</span>
                     </div>
                 </div>
             </div>
         `);
         });
+        }
+
+        if ($('body').find('#dvCheckoutWrapper').length > 0) {
+            $("#dvCheckoutWrapper").html("");
+            $.each(lstCartProduct, function (index, value) {
+                $("#dvCheckoutWrapper").append(`
+            <div class="cart-item" id='dvCartWrapper_${value.id}';style="clear:both; display:block; border:1px solid #fff; height:100px; width:100%;">
+                <div class="row" style="padding:5px">
+                    <div class="col-3">
+                        <img src="${value.Image}" alt="${value.Name}" style="height:70px; width:70px;" />
+                    </div>
+                    <div class="col-3 d-flex align-items-center">
+                        <span>${value.Name}</span>
+                    </div>
+                    <div class="col-3 d-flex align-items-center">
+                        <span>${value.Price}</span>
+                    </div>
+                    <div class="col-3 d-flex align-items-center ">
+                        <span id='dltCartProduct_${value.id}' style='cursor:pointer; color:red;' onclick="ProductController.DeleteCartProduct('#dvCartWrapper_${value.id}', '${value.id}')">X</span>
+                    </div>
+                </div>
+            </div>
+        `);
+            });
         }
     },
     PrepareCartForCheckoutUI: (url) => {
@@ -165,27 +159,8 @@ var ProductController = {
                 try {
                     lstCartProduct = JSON.parse(cartData);
                     ProductController.ArrangeProductForCart();
-                    $.each(lstCartProduct, function (index, value) {
-                        $("#dvCheckoutWrapper").append(`
-            <div class="cart-item" id='dvCartWrapper_${index}';style="clear:both; display:block; border:1px solid #fff; height:100px; width:100%;">
-                <div class="row" style="padding:5px">
-                    <div class="col-3">
-                        <img src="${value.Image}" alt="${value.Name}" style="height:70px; width:70px;" />
-                    </div>
-                    <div class="col-3 d-flex align-items-center">
-                        <span>${value.Name}</span>
-                    </div>
-                    <div class="col-3 d-flex align-items-center">
-                        <span>${value.Price}</span>
-                    </div>
-                    <div class="col-3 d-flex align-items-center ">
-                        <span id='dltCartProduct_${index}' style='cursor:pointer; color:red;' onclick="ProductController.DeleteCartProduct('#dvCartWrapper_${index}', '${index}')">X</span>
-                    </div>
-                </div>
-            </div>
-        `);
-                    });
-                } catch (e) {
+                }
+                catch (e) {
                     $('#lblCartCount').html("0");
                     lstCartProduct = [];
                 }
@@ -194,5 +169,44 @@ var ProductController = {
                 lstCartProduct = [];
             }
         };
-    }
+    },
+    SingleProduct: (productID) => {
+        ProductService.SingleProduct(productID, function (response) {
+            var imageHTML = ``;
+            if (response.images>1) {
+                $.each(response.images, function (index, value) {
+                    imageHTML = imageHTML + `
+                <div class="col col-3" style="width:100px;height:100px">
+                                <img src="${value}" onclick="javascript:$('#imgTergetBigView').attr('src','${value}')" style="width:100px;height:100px" />
+                            </div>
+                       `
+                });
+            }
+           
+
+            $('#dvSingleViewProduct').html(`
+                <div class="row">
+                    <div class="col col-4">
+                        <div class="row">
+                            <div class="col col-12"style="width:500px">
+                                <img id="imgTergetBigView" src="${response.images}" style="width:100%" />
+                            </div>
+                        </div>
+                        <div class="row">
+                          ${imageHTML}
+                            
+                        </div>
+                    </div>
+                        <div class="col col-8" style="padding-top: 100px;">
+                            <span>${response.title} </span> <br />
+                            <span>${response.description}  </span> <br />
+                            <span>Price: ${response.price}$ </span> <br />
+                            <span>DiscountPercentage: ${response.discountPercentage}% </span> <br />
+                            <span>Available: ${response.stock} pices </span> <br />
+                            <span class="btn btn-primary">Add To Cart</span> <br />
+                        </div>
+                </div>
+            `);
+        })
+    },
 }

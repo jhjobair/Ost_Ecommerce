@@ -1,0 +1,11 @@
+﻿<script src="~/js/controller/productcontroller.js"></script>
+<script src="~/js/services/productservice.js"></script>
+<script>
+    var pProductId = @ViewBag.productID;
+    $(document).ready(function(){
+        ProductController.SingleProduct(pProductId);
+    })
+</script>
+<div id="dvSingleViewProduct" style="width:100%;">
+
+</div>

@@ -4,5 +4,11 @@
             callback(data);
         });
 
+    },
+     SingleProduct: ( productID,callback) => {
+        $.get("https://dummyjson.com/products/"+productID, function (data, status) {
+            callback(data);
+        });
+
     }
 }
