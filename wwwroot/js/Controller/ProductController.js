@@ -2,6 +2,55 @@
 var lstCartProduct = [];
 
 var ProductController = {
+    debugger;
+    LoadCategories: (url) => {
+        var LiCategory = "";
+        ProductService.LoadCategories(function (response) {
+            $.each(response, function (index, value) {
+                LiCategory += `<a href="${url}/${value.name}">${value.name}</a> </br>`;
+            });
+            $('#ulMenu').html(LiCategory);
+        });
+    },
+    LstProductCategories: (CategoryName) => {
+        debugger;
+        console.log(CategoryName);
+        ProductService.LoadProductByCategories(CategoryName,function (response) {
+            var productContent = "";
+            $.each(response.products, function (index, value) {
+                
+                productContent = productContent + `
+                   <div class="col-sm-3" style="margin-top:10px">
+                        <div class="thumb-wrapper">
+                            <span class="wish-icon"><i class="fa fa-heart-o"></i></span>
+                            <div class="img-box">
+                                 <img id="pdPicture_${value.id}"  src="${value.thumbnail}" style="cursor:pointer" onclick="window.location.href='/product/singleproduct/${value.id}'" class="img-fluid" alt="">
+                            </div>
+                            <div class="thumb-content text-center">
+                                <h4 id="pdName_${value.id}" style="cursor:pointer"onclick="window.location.href='/product/singleproduct/${value.id}'">${value.title}</h4>
+                                <div class="star-rating">
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                        <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+                                    </ul>
+                                </div>
+                                        <p class="item-price" ><strike>${value.price}</strike> <b id="pdPrice_${value.id}">${value.price}</b></p>
+                                        <a href="#" class="btn btn-secondary" id='btnAddToCart_${value.id}' onclick='ProductController.AddToCart(this)'>Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            })
+            $('#CategoryList').html(productContent);
+        })
+
+    },
+
+
+
     LstProduct: () => {
         ProductService.LstProducts(function (response) {
             var productContent = "";
@@ -103,10 +152,10 @@ var ProductController = {
             <div class="cart-item" id='dvCartWrapper_${value.id}';style="clear:both; display:block; border:1px solid #fff; height:100px; width:100%;">
                 <div class="row" style="padding:5px">
                     <div class="col-3">
-                        <img src="${value.Image}" alt="${value.Name}" style="height:70px; width:70px;" />
+                        <img onclick="window.location.href='/product/singleproduct/${value.id}'" src="${value.Image}" alt="${value.Name}" style="height:70px; width:70px;" />
                     </div>
                     <div class="col-3 d-flex align-items-center">
-                        <span>${value.Name}</span>
+                        <span onclick="window.location.href='/product/singleproduct/${value.id}'">${value.Name}</span>
                     </div>
                     <div class="col-3 d-flex align-items-center">
                         <span>${value.Price}</span>
@@ -127,10 +176,10 @@ var ProductController = {
             <div class="cart-item" id='dvCartWrapper_${value.id}';style="clear:both; display:block; border:1px solid #fff; height:100px; width:100%;">
                 <div class="row" style="padding:5px">
                     <div class="col-3">
-                        <img src="${value.Image}" alt="${value.Name}" style="height:70px; width:70px;" />
+                        <img onclick="window.location.href='/product/singleproduct/${value.id}'" src="${value.Image}" alt="${value.Name}" style="height:70px; width:70px;" />
                     </div>
                     <div class="col-3 d-flex align-items-center">
-                        <span>${value.Name}</span>
+                        <span onclick="window.location.href='/product/singleproduct/${value.id}'">${value.Name}</span>
                     </div>
                     <div class="col-3 d-flex align-items-center">
                         <span>${value.Price}</span>
@@ -203,7 +252,7 @@ var ProductController = {
                             <span>Price: ${response.price}$ </span> <br />
                             <span>DiscountPercentage: ${response.discountPercentage}% </span> <br />
                             <span>Available: ${response.stock} pices </span> <br />
-                            <span class="btn btn-primary">Add To Cart</span> <br />
+                            <span class="btn btn-primary"  >Add To Cart</span> <br />
                         </div>
                 </div>
             `);

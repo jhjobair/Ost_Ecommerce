@@ -2,11 +2,11 @@
 
 <div id="dvViewCart" style="position:fixed; right:-300px; top:0; bottom:0; width:300px; background:#ccc;overflow:auto">
 
-    <div id="dvViewCartWrapper" style="position:absolute;width:100%;background:#ccc;display:block;bottom:40px;top:0px">
+    <div id="dvViewCartWrapper" style="overflow:auto; height:calc(100% - 40px); padding:10px;">
        
     </div>
 
-    <button class="btn btn-danger" style="height:40px; width:100%;bottom:0px; position:absolute;background:#444;"
+    <button class="btn btn-secondary" style="height:40px; width:100%;bottom:0px; position:absolute;"
             onclick="javascript:ProductController.PrepareCartForCheckoutUI('@Url.Action("CheckOut", "Product")')">
         CheckOut
     </button>

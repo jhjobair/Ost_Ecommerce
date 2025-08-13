@@ -1,6 +1,6 @@
 ﻿var ProductService = {
     LstProducts: (callback) => {
-        $.get("/json_api/products.json", function (data, status) {
+        $.get("https://dummyjson.com/products", function (data, status) {
             callback(data);
         });
 
@@ -9,6 +9,15 @@
         $.get("https://dummyjson.com/products/"+productID, function (data, status) {
             callback(data);
         });
-
+    },
+    LoadCategories: ( callback) => {
+        $.get("https://dummyjson.com/products/categories", function (data, status) {
+            callback(data);
+        });
+    },
+    LoadProductByCategories: (CatagoryName, callback) => {
+        $.get("https://dummyjson.com/products/category/" + CatagoryName, function (data, status) {
+            callback(data);
+        });
     }
 }

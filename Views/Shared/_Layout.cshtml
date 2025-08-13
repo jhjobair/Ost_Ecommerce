@@ -12,6 +12,10 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/controller/productcontroller.js"></script>
+    <script src="~/js/services/productservice.js"></script>
+
+
 
     <script>
         $(document).ready(function () {
@@ -21,6 +25,13 @@
             $('#lblUser').html(userName);
           } 
         });
+        
+            $(document).ready(function(){
+            ProductController.LoadCartProductForCheckout();
+            ProductController.LoadCategories('/Product/CategoryProduct');
+
+
+        })
     </script>
 
 </head>
@@ -56,6 +67,8 @@
             </div>
         </nav>
     </header>
+    @Html.Partial("~/Views/Common/_PartialSidebar.cshtml") ;
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
