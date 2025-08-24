@@ -2,18 +2,16 @@
 var lstCartProduct = [];
 
 var ProductController = {
-    debugger;
     LoadCategories: (url) => {
         var LiCategory = "";
         ProductService.LoadCategories(function (response) {
             $.each(response, function (index, value) {
-                LiCategory += `<a href="${url}/${value.name}">${value.name}</a> </br>`;
+                LiCategory += `<a href="${url}/${value.slug}">${value.name}</a> </br>`;
             });
             $('#ulMenu').html(LiCategory);
         });
     },
     LstProductCategories: (CategoryName) => {
-        debugger;
         console.log(CategoryName);
         ProductService.LoadProductByCategories(CategoryName,function (response) {
             var productContent = "";

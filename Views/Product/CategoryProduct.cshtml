@@ -1,10 +1,9 @@
-﻿@{
+﻿@* @{
     string CategoryName = Context.Request.Query["CategoryName"].ToString();
-}
-<script src="~/js/controller/productcontroller.js"></script>
-<script src="~/js/services/productservice.js"></script>
+} *@
+
 <script>
-    var CategoryName = '@CategoryName';
+    var CategoryName = '@ViewBag.CategoryName';
     $(document).ready(function(){
        ProductController.LstProductCategories(CategoryName);
     })

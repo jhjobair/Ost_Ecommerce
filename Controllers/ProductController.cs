@@ -17,8 +17,9 @@ namespace Ost_Ecommerce.Controllers
             ViewBag.productID = id;
             return View();
         }
-        public IActionResult CategoryProduct()
+        public IActionResult CategoryProduct(string categoryName)
         {
+            ViewBag.CategoryName = categoryName;
             return View();
         }
     }
